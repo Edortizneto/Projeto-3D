@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour{
         characterController = GetComponent<CharacterController>();
         characterController.height = 2.0f;
         _actualSpeed = _baseSpeed;
-        playerFlashlight = GetComponent<Light>();
+        playerFlashlight = GetComponentInChildren<Light>();
     }
 
     void Update(){
