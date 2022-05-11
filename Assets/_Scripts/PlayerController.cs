@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour{
     bool _crouching = false;
     bool _flashlight = true; 
     float velJump = 0.0f;
+    GameManager gm;
     CharacterController characterController;
     GameObject playerCamera;
     Light playerFlashlight;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour{
         characterController.height = 2.0f;
         _actualSpeed = _baseSpeed;
         playerFlashlight = GetComponentInChildren<Light>();
+        gm = GameManager.GetInstance();
     }
 
     void Update(){
@@ -53,6 +55,10 @@ public class PlayerController : MonoBehaviour{
         Duck();
         Flashlight();
         // Para testes apenas
+        if (Input.GetKeyDown(KeyCode.X)){
+            gm.progression++;
+            //Debug.Log($"{gm.progression}");
+        }
     }
 
     void LateUpdate(){
@@ -79,7 +85,7 @@ public class PlayerController : MonoBehaviour{
             _runnnig = false;
         }*/
         if (Input.GetKey(KeyCode.LeftShift)){
-            Debug.Log($"is LShift pressed: {Input.GetKey(KeyCode.LeftShift)}");
+            //Debug.Log($"is LShift pressed: {Input.GetKey(KeyCode.LeftShift)}");
             _actualSpeed = _runSpeed;
         } else {
             _actualSpeed = _baseSpeed;
@@ -92,7 +98,7 @@ public class PlayerController : MonoBehaviour{
             _crouching = _crouching ? false : true;
         }    
         if (_crouching){    
-            Debug.Log($"is LControl pressed: {Input.GetKey(KeyCode.LeftControl)}");
+            //Debug.Log($"is LControl pressed: {Input.GetKey(KeyCode.LeftControl)}");
             _actualSpeed = _duckSpeed;
             characterController.height = 0.5f;
             //transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);

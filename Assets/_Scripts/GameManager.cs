@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour{
+public class GameManager {
 
     public enum GameState { MENU, GAME, PAUSE, GAMELOST, GAMEWON };
     public GameState gameState { get; private set; }
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour{
     }
 
     private GameManager(){
-       gameState = GameState.MENU;
+       gameState = GameState.GAME;
        FreezeGame(gameState);
        progression = 0;
     }
@@ -38,9 +38,5 @@ public class GameManager : MonoBehaviour{
         else {
             Time.timeScale = 1;
         }
-    }
-
-    private void Reset(){
-        progression = 0;
     }  
 }
