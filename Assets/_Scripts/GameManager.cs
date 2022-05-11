@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour{
     }
 
     private GameManager(){
-       gameState = GameState.MENU;
+       gameState = GameState.GAME;
        FreezeGame(gameState);
        progression = 0;
     }
