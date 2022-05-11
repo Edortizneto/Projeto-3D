@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour{
     public static ChangeStateDelegate changeStateDelegate; 
     private static GameManager _instance;
 
+    public int progression;
+
     public static GameManager GetInstance(){
        if(_instance == null){
            _instance = new GameManager();
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour{
     private GameManager(){
        gameState = GameState.MENU;
        FreezeGame(gameState);
+       progression = 0;
     }
 
     public void ChangeState(GameState nextState){
@@ -35,5 +38,9 @@ public class GameManager : MonoBehaviour{
         else {
             Time.timeScale = 1;
         }
+    }
+
+    private void Reset(){
+        progression = 0;
     }  
 }
