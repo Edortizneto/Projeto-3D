@@ -6,9 +6,9 @@ public class PlayerController : MonoBehaviour{
     float _baseSpeed = 4.0f;
     float _runSpeed = 8.0f;
     float _duckSpeed = 1.0f;
+
     float _actualSpeed; //= 10.0f;
     float _gravidade = 5.0f;
-    //bool _runnnig = false;
     bool _crouching = false;
     bool _flashlight = true; 
     bool _isLooking = false;
@@ -23,10 +23,13 @@ public class PlayerController : MonoBehaviour{
     float cameraRotation;
     float horizontalSpeed = 5.0f;
     float verticalSpeed = -5.0f;
+    GameManager gm;
+
 
 
 
     void Start(){
+        gm = GameManager.GetInstance();
         playerCamera = GameObject.Find("Main Camera");
         enemy = GameObject.Find("Enemy");
         cam = GetComponentInChildren<Camera>();
@@ -60,6 +63,7 @@ public class PlayerController : MonoBehaviour{
         Run();
         Duck();
         Flashlight();
+        PauseGame();
         // Para testes apenas
         if (Input.GetKeyDown(KeyCode.X)){
             gm.progression++;
@@ -96,21 +100,13 @@ public class PlayerController : MonoBehaviour{
         }
     }
 
-
     float Jump(){
-        
         if(Input.GetKeyDown(KeyCode.Space) && characterController.isGrounded) velJump = 7.0f;
         velJump -= velJump > 0 ? 7.0f * Time.deltaTime : 0.0f;
         return velJump;
     }
 
     void Run(){
-        //print(Input.GetKeyDown(KeyCode.LeftShift));
-        //print(_runnnig);
-        /*if (Input.GetKeyDown(KeyCode.LeftShift) && _runnnig){ 
-            _actualSpeed = _baseSpeed;
-            _runnnig = false;
-        }*/
         if (Input.GetKey(KeyCode.LeftShift)){
             //Debug.Log($"is LShift pressed: {Input.GetKey(KeyCode.LeftShift)}");
             _actualSpeed = _runSpeed;
@@ -120,12 +116,10 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Duck(){
-
         if (Input.GetKeyDown(KeyCode.LeftControl) && characterController.isGrounded){
             _crouching = _crouching ? false : true;
         }    
         if (_crouching){    
-            //Debug.Log($"is LControl pressed: {Input.GetKey(KeyCode.LeftControl)}");
             _actualSpeed = _duckSpeed;
             characterController.height = 0.5f;
             //transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
@@ -138,7 +132,13 @@ public class PlayerController : MonoBehaviour{
         if (Input.GetKeyDown(KeyCode.F)){
             _flashlight = _flashlight ? false : true;
         }
-        if (_flashlight) playerFlashlight.intensity = 0.0f;
-        else playerFlashlight.intensity = 4.0f;
+        if (_flashlight) playerFlashlight.intensity = 4.0f;
+        else playerFlashlight.intensity = 0.0f;
+    }
+
+    void PauseGame(){
+        if (Input.GetKeyDown(KeyCode.P)){
+            gm.ChangeState(GameManager.GameState.PAUSE);
+        }
     }
 }

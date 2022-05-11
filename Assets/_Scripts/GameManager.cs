@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager {
-
     public enum GameState { MENU, GAME, PAUSE, GAMELOST, GAMEWON };
     public GameState gameState { get; private set; }
     public delegate void ChangeStateDelegate();
