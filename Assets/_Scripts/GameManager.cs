@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour{
+public class GameManager{
 
     public enum GameState { MENU, GAME, PAUSE, GAMELOST, GAMEWON };
     public GameState gameState { get; private set; }
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour{
     }
 
     private GameManager(){
-       gameState = GameState.GAME;
+       gameState = GameState.MENU;
        FreezeGame(gameState);
        progression = 0;
     }
