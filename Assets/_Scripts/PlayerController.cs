@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour{
         characterController = GetComponent<CharacterController>();
         characterController.height = 2.0f;
         _actualSpeed = _baseSpeed;
-        playerFlashlight = GetComponentInChildren<Light>();
+        playerFlashlight = GetComponent<Light>();
     }
 
     void Update(){
@@ -98,8 +98,8 @@ public class PlayerController : MonoBehaviour{
         if (Input.GetKeyDown(KeyCode.F)){
             _flashlight = _flashlight ? false : true;
         }
-        if (_flashlight) playerFlashlight.intensity = 0.0f;
-        else playerFlashlight.intensity = 4.0f;
+        if (_flashlight) playerFlashlight.intensity = 4.0f;
+        else playerFlashlight.intensity = 0.0f;
     }
 
     void PauseGame(){
