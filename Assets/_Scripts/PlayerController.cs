@@ -7,9 +7,11 @@ public class PlayerController : MonoBehaviour{
     float _runSpeed = 8.0f;
     float _duckSpeed = 1.0f;
     float _actualSpeed;
-    float _gravidade = 2.0f;
+    float _gravidade = 5.0f;
     bool _crouching = false;
     bool _flashlight = true; 
+    bool _isLooking = false;
+    float countdown = 5;
     float velJump = 0.0f;
     CharacterController characterController;
     GameObject playerCamera;
@@ -18,9 +20,13 @@ public class PlayerController : MonoBehaviour{
     float horizontalSpeed = 5.0f;
     float verticalSpeed = -5.0f;
     GameManager gm;
+    Camera cam;
+    GameObject enemy;
 
     void Start(){
         gm = GameManager.GetInstance();
+        enemy = GameObject.Find("Enemy");
+        cam = GetComponentInChildren<Camera>();
         playerCamera = GameObject.Find("Main Camera");
         cameraRotation = 0.0f;
         characterController = GetComponent<CharacterController>();
@@ -53,7 +59,32 @@ public class PlayerController : MonoBehaviour{
         Duck();
         Flashlight();
         PauseGame();
-        // Para testes apenas
+        
+        if (Input.GetKeyDown(KeyCode.X)){
+            gm.progression++;
+            //Debug.Log($"{gm.progression}");
+        }
+        // Checa se está próximo
+        float dist = Vector3.Distance(enemy.transform.position, transform.position);
+        // Checa se está vendo o inimigo
+        Vector3 viewPos = cam.WorldToViewportPoint(enemy.transform.position);
+        if ((viewPos.x > 0.0F && viewPos.x < 1.0f) && (viewPos.y > 0.0F && viewPos.y < 1.0f)) {
+            if (viewPos.z > 0.0F)
+                _isLooking = true;
+                //print("target is found");
+        }
+        else
+            _isLooking = false;
+        //    print("target not found");
+        Debug.Log($"is looking = {_isLooking}");
+        if(_isLooking) 
+            countdown -= Time.deltaTime;
+        
+        if(!_isLooking)  
+            countdown = 5;
+        if(countdown <= 0 || dist <= 3.0f) {
+            Debug.Log("Morreu !!!!!!!!");
+        }
     }
 
     void LateUpdate(){
@@ -65,7 +96,7 @@ public class PlayerController : MonoBehaviour{
     }
 
     float Jump(){
-        if(Input.GetKeyDown(KeyCode.Space) && characterController.isGrounded) velJump = 5.0f;
+        if(Input.GetKeyDown(KeyCode.Space) && characterController.isGrounded) velJump = 7.0f;
         velJump -= velJump > 0 ? 7.0f * Time.deltaTime : 0.0f;
         return velJump;
     }
