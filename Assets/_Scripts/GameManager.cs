@@ -11,6 +11,7 @@ public class GameManager {
     private static GameManager _instance;
 
     public int progression;
+    public int backpack;
 
     public static GameManager GetInstance(){
        if(_instance == null){
@@ -23,6 +24,7 @@ public class GameManager {
        gameState = GameState.GAME;
        FreezeGame(gameState);
        progression = 0;
+       backpack = 0;
     }
 
     public void ChangeState(GameState nextState){
