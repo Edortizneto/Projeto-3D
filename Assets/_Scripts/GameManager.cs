@@ -28,7 +28,7 @@ public class GameManager{
     }
 
     public void ChangeState(GameState nextState){
-        if (gameState != GameState.PAUSE && nextState == GameState.GAME) Reset();
+        if ((gameState == GameState.GAMELOST || gameState == GameState.GAMEWON) && nextState == GameState.GAME) Reset();
         gameState = nextState;
         FreezeGame(nextState);
         changeStateDelegate();
