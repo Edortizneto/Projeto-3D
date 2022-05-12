@@ -19,9 +19,6 @@ public class PlayerController : MonoBehaviour{
     float verticalSpeed = -5.0f;
     GameManager gm;
 
-
-
-
     void Start(){
         gm = GameManager.GetInstance();
         playerCamera = GameObject.Find("Main Camera");
@@ -33,6 +30,7 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Update(){
+        if (gm.gameState != GameManager.GameState.GAME) return;
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 

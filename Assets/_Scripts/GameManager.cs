@@ -34,9 +34,11 @@ public class GameManager{
     public void FreezeGame(GameState currentState){
         if(currentState != GameState.GAME){
             Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
         }
         else {
             Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
