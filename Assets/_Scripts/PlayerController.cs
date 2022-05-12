@@ -20,11 +20,14 @@ public class PlayerController : MonoBehaviour{
     float horizontalSpeed = 5.0f;
     float verticalSpeed = -5.0f;
     GameManager gm;
+    AudioManager am;
     Camera cam;
     GameObject enemy;
+    public AudioClip stepsAudio;
 
     void Start(){
         gm = GameManager.GetInstance();
+        am = AudioManager.GetInstance();
         enemy = GameObject.Find("Enemy");
         cam = GetComponentInChildren<Camera>();
         playerCamera = GameObject.Find("Main Camera");
@@ -59,31 +62,26 @@ public class PlayerController : MonoBehaviour{
         Duck();
         Flashlight();
         PauseGame();
+        StepsSounds(x, z);
         
         if (Input.GetKeyDown(KeyCode.X)){
             gm.progression++;
-            //Debug.Log($"{gm.progression}");
         }
-        // Checa se está próximo
         float dist = Vector3.Distance(enemy.transform.position, transform.position);
-        // Checa se está vendo o inimigo
         Vector3 viewPos = cam.WorldToViewportPoint(enemy.transform.position);
         if ((viewPos.x > 0.0F && viewPos.x < 1.0f) && (viewPos.y > 0.0F && viewPos.y < 1.0f)) {
-            if (viewPos.z > 0.0F)
-                _isLooking = true;
-                //print("target is found");
+            if (viewPos.z > 0.0F){
+                if (enemy.transform.position.y > 0) _isLooking = true;
+            }
         }
         else
             _isLooking = false;
-        //    print("target not found");
-        Debug.Log($"is looking = {_isLooking}");
         if(_isLooking) 
             countdown -= Time.deltaTime;
-        
         if(!_isLooking)  
             countdown = 5;
         if(countdown <= 0 || dist <= 3.0f) {
-            Debug.Log("Morreu !!!!!!!!");
+            gm.ChangeState(GameManager.GameState.GAMELOST);
         }
     }
 
@@ -103,7 +101,6 @@ public class PlayerController : MonoBehaviour{
 
     void Run(){
         if (Input.GetKey(KeyCode.LeftShift)){
-            Debug.Log($"is LShift pressed: {Input.GetKey(KeyCode.LeftShift)}");
             _actualSpeed = _runSpeed;
         } else {
             _actualSpeed = _baseSpeed;
@@ -117,7 +114,6 @@ public class PlayerController : MonoBehaviour{
         if (_crouching){    
             _actualSpeed = _duckSpeed;
             characterController.height = 0.5f;
-            //transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         } else {
             characterController.height = 2.0f;
         }
@@ -134,6 +130,17 @@ public class PlayerController : MonoBehaviour{
     void PauseGame(){
         if (Input.GetKeyDown(KeyCode.P)){
             gm.ChangeState(GameManager.GameState.PAUSE);
+        }
+    }
+
+    void StepsSounds(float x, float z){
+        if ((x > 0.0f || z > 0.0f) && !am.sfxSource.isPlaying) AudioManager.PlaySFX(stepsAudio);
+    }
+
+    void OnCollisionEnter(Collision other){
+        if (other.gameObject.tag == "Item") {
+            gm.backpack++;
+            Destroy(other.gameObject);
         }
     }
 }
