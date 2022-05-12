@@ -75,13 +75,12 @@ public class PlayerController : MonoBehaviour{
         }
         else
             _isLooking = false;
-        Debug.Log($"is looking = {_isLooking}");
         if(_isLooking) 
             countdown -= Time.deltaTime;
         if(!_isLooking)  
             countdown = 5;
         if(countdown <= 0 || dist <= 3.0f) {
-            Debug.Log("Morreu !!!!!!!!");
+            gm.ChangeState(GameManager.GameState.GAMELOST);
         }
     }
 

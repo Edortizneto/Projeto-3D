@@ -9,6 +9,7 @@ public class GameManager{
     public delegate void ChangeStateDelegate();
     public static ChangeStateDelegate changeStateDelegate; 
     private static GameManager _instance;
+    private GameObject player;
 
     public int progression;
 
@@ -21,14 +22,21 @@ public class GameManager{
 
     private GameManager(){
        gameState = GameState.MENU;
+       player = GameObject.Find("Player");
        FreezeGame(gameState);
        progression = 0;
     }
 
     public void ChangeState(GameState nextState){
+        if (gameState != GameState.PAUSE && nextState == GameState.GAME) Reset();
         gameState = nextState;
         FreezeGame(nextState);
         changeStateDelegate();
+    }
+
+    public void Reset(){
+        progression = 0;
+        player.transform.position = new Vector3(0, 10, 0);
     }
 
     public void FreezeGame(GameState currentState){
@@ -41,8 +49,4 @@ public class GameManager{
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
-
-    private void Reset(){
-        progression = 0;
-    }  
 }
