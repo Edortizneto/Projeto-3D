@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     GameManager gm;
-    Vector3 startPos = new Vector3( -27, 40, 41);
+    Vector3 startPos = new Vector3( -27, 0, 41);
     Vector3 attackPos = new Vector3( -27, 50, 41);
     Vector3 attackFwd = new Vector3( -27, 50, 41);
     GameObject player;

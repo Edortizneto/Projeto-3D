@@ -10,7 +10,7 @@ public class GameManager{
     public static ChangeStateDelegate changeStateDelegate; 
     private static GameManager _instance;
     private GameObject player;
-
+    public int backpack;
     public int progression;
 
     public static GameManager GetInstance(){
@@ -25,6 +25,7 @@ public class GameManager{
        player = GameObject.Find("Player");
        FreezeGame(gameState);
        progression = 0;
+       backpack = 0;
     }
 
     public void ChangeState(GameState nextState){

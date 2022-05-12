@@ -70,8 +70,9 @@ public class PlayerController : MonoBehaviour{
         float dist = Vector3.Distance(enemy.transform.position, transform.position);
         Vector3 viewPos = cam.WorldToViewportPoint(enemy.transform.position);
         if ((viewPos.x > 0.0F && viewPos.x < 1.0f) && (viewPos.y > 0.0F && viewPos.y < 1.0f)) {
-            if (viewPos.z > 0.0F)
-                _isLooking = true;
+            if (viewPos.z > 0.0F){
+                if (enemy.transform.position.y > 0) _isLooking = true;
+            }
         }
         else
             _isLooking = false;
@@ -134,5 +135,12 @@ public class PlayerController : MonoBehaviour{
 
     void StepsSounds(float x, float z){
         if ((x > 0.0f || z > 0.0f) && !am.sfxSource.isPlaying) AudioManager.PlaySFX(stepsAudio);
+    }
+
+    void OnCollisionEnter(Collision other){
+        if (other.gameObject.tag == "Item") {
+            gm.backpack++;
+            Destroy(other.gameObject);
+        }
     }
 }
