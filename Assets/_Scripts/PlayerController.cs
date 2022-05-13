@@ -136,11 +136,4 @@ public class PlayerController : MonoBehaviour{
     void StepsSounds(float x, float z){
         if ((x > 0.0f || z > 0.0f) && !am.sfxSource.isPlaying) AudioManager.PlaySFX(stepsAudio);
     }
-
-    void OnCollisionEnter(Collision other){
-        if (other.gameObject.tag == "Item") {
-            gm.backpack++;
-            Destroy(other.gameObject);
-        }
-    }
 }

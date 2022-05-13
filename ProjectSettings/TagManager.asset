@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerLight
   - Item
+  - Totem
   layers:
   - Default
   - TransparentFX

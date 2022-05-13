@@ -11,6 +11,7 @@ public class GameManager{
     private static GameManager _instance;
     private GameObject player;
     public int backpack;
+    public int collected;
     public int progression;
 
     public static GameManager GetInstance(){
@@ -26,6 +27,7 @@ public class GameManager{
        FreezeGame(gameState);
        progression = 0;
        backpack = 0;
+       collected = 0;
     }
 
     public void ChangeState(GameState nextState){
@@ -37,6 +39,8 @@ public class GameManager{
 
     public void Reset(){
         progression = 0;
+        backpack = 0;
+        collected = 0;
         player.transform.position = new Vector3(0, 10, 0);
     }
 

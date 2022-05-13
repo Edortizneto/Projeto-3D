@@ -19,15 +19,14 @@ public class ItemSpawner : MonoBehaviour
     }
 
     void Generator(){
+
         LastRand = new int[Max];
         for (int i = 0; i < Max; i++){
             Rand = Random.Range(0, 4);
-            for (int j = 0; j < i; j++){
-                while (Rand == LastRand[j]){
-                    Rand = Random.Range(0, 4);
-                }
+            while (LastRand.Contains(Rand)){
+                Rand = Random.Range(0, 4);
             }
-             LastRand[i] = Rand;
+            LastRand[i] = Rand;
             item = Instantiate(Items[i], spawnSpots[Rand].transform.position, Quaternion.identity);
             item.transform.Rotate(-90, 0, 0);
         }

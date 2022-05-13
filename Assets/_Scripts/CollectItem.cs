@@ -14,5 +14,15 @@ public class CollectItem : MonoBehaviour
             gm.backpack++;
             Destroy(other.gameObject);
         }
+
+        else if (other.gameObject.tag == "Totem") {
+            if (gm.backpack > 0){
+                gm.collected += gm.backpack; 
+                gm.backpack = 0;
+            }
+            if(gm.collected == 3){
+                gm.ChangeState(GameManager.GameState.GAMEWON);
+            }
+        }
     }
 }
