@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour{
     bool _crouching = false;
     bool _flashlight = true; 
     bool _isLooking = false;
-    float countdown = 2;
+    float countdown = 4.0f;
     float velJump = 0.0f;
     CharacterController characterController;
     GameObject playerCamera;
@@ -40,7 +40,10 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Update(){
-        if (gm.gameState != GameManager.GameState.GAME && gm.gameState != GameManager.GameState.PAUSE) transform.position = startPos;
+        if (gm.lastState == GameManager.GameState.GAMEWON || gm.lastState == GameManager.GameState.GAMELOST) {
+            transform.position = startPos;
+            countdown = 2.0f;
+            }
         if (gm.gameState != GameManager.GameState.GAME) return;
 
         float x = Input.GetAxis("Horizontal");
@@ -79,10 +82,10 @@ public class PlayerController : MonoBehaviour{
         }
         else
             _isLooking = false;
-        if(_isLooking && _flashlight) 
+        if(_isLooking) 
             countdown -= Time.deltaTime;
         if(!_isLooking)  
-            countdown = 2;
+            countdown = 4;
         if(countdown <= 0 || dist <= 2.0f) {
             gm.ChangeState(GameManager.GameState.GAMELOST);
         }

@@ -44,7 +44,6 @@ public class GameManager{
         progression = 0;
         backpack = 0;
         collected = 0;
-        player.transform.position = new Vector3(0, 10, 0);
     }
 
     public void FreezeGame(GameState currentState){

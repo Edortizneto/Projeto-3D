@@ -9,12 +9,17 @@ public class EnemyController : MonoBehaviour
     Vector3 attackPos = new Vector3( -27, 50, 41);
     Vector3 attackFwd = new Vector3( -27, 50, 41);
     GameObject player;
+    public AudioClip SpawnAudio;
+    AudioManager am;
+
+
     float countdown;
     bool isSpanwed = false;
     public float turnRate;
     void Start(){
+        am = AudioManager.GetInstance();
         gm = GameManager.GetInstance();
-        countdown = 5;
+        countdown = 10;
         player = GameObject.Find("Player");
         transform.position = startPos;
     }
@@ -23,10 +28,11 @@ public class EnemyController : MonoBehaviour
     void Update(){
         if (gm.gameState != GameManager.GameState.GAME && gm.gameState != GameManager.GameState.PAUSE) transform.position = startPos;
         if (countdown <= 0) {
-            countdown = 5;
+            AudioManager.PlaySFX(SpawnAudio);
+            countdown = 10;
             attackPos = player.transform.position;
             attackFwd = player.transform.forward;
-            attackPos.y += 10.0f;
+            attackPos.y += 12.0f;
             transform.position = attackPos + attackFwd*10.0f;
             isSpanwed = true;
         }
