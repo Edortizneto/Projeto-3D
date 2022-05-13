@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour{
     bool _crouching = false;
     bool _flashlight = true; 
     bool _isLooking = false;
-    float countdown = 4.0f;
+    float countdown = 3.0f;
     float velJump = 0.0f;
     CharacterController characterController;
     GameObject playerCamera;
@@ -37,14 +37,17 @@ public class PlayerController : MonoBehaviour{
         characterController.height = 2.0f;
         _actualSpeed = _baseSpeed;
         playerFlashlight = GetComponentInChildren<Light>();
+        transform.position = startPos;
     }
 
     void Update(){
-        if (gm.lastState == GameManager.GameState.GAMEWON || gm.lastState == GameManager.GameState.GAMELOST) {
+        
+        if (gm.gameState == GameManager.GameState.GAMEWON || gm.gameState == GameManager.GameState.GAMELOST) {
             transform.position = startPos;
-            countdown = 2.0f;
+            countdown = 3.0f;
+            return;
             }
-        if (gm.gameState != GameManager.GameState.GAME) return;
+        if (gm.gameState == GameManager.GameState.PAUSE) return;
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -70,9 +73,6 @@ public class PlayerController : MonoBehaviour{
         PauseGame();
         StepsSounds(x, z);
         
-        if (Input.GetKeyDown(KeyCode.X)){
-            gm.progression++;
-        }
         float dist = Vector3.Distance(enemy.transform.position, transform.position);
         Vector3 viewPos = cam.WorldToViewportPoint(enemy.transform.position);
         if ((viewPos.x > 0.0F && viewPos.x < 1.0f) && (viewPos.y > 0.0F && viewPos.y < 1.0f)) {
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour{
         if(_isLooking) 
             countdown -= Time.deltaTime;
         if(!_isLooking)  
-            countdown = 4;
+            countdown = 3;
         if(countdown <= 0 || dist <= 2.0f) {
             gm.ChangeState(GameManager.GameState.GAMELOST);
         }

@@ -14,8 +14,7 @@ public class EnemyController : MonoBehaviour
 
 
     float countdown;
-    bool isSpanwed = false;
-    public float turnRate;
+    //bool isSpanwed = false;
     void Start(){
         am = AudioManager.GetInstance();
         gm = GameManager.GetInstance();
@@ -34,7 +33,11 @@ public class EnemyController : MonoBehaviour
             attackFwd = player.transform.forward;
             attackPos.y += 12.0f;
             transform.position = attackPos + attackFwd*(10.0f - gm.backpack);
-            isSpanwed = true;
+            Vector3 localPos = transform.InverseTransformDirection(player.transform.position-transform.position);
+            localPos.y = 0;
+            Vector3 lookPos = transform.position + transform.TransformDirection(localPos);
+            transform.LookAt(lookPos);
+            //isSpanwed = true;
         }
         countdown -= Time.deltaTime;
     }
