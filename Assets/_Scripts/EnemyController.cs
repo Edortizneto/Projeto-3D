@@ -29,11 +29,11 @@ public class EnemyController : MonoBehaviour
         if (gm.gameState != GameManager.GameState.GAME && gm.gameState != GameManager.GameState.PAUSE) transform.position = startPos;
         if (countdown <= 0) {
             AudioManager.PlaySFX(SpawnAudio);
-            countdown = 10;
+            countdown = 10 - gm.collected;
             attackPos = player.transform.position;
             attackFwd = player.transform.forward;
             attackPos.y += 12.0f;
-            transform.position = attackPos + attackFwd*10.0f;
+            transform.position = attackPos + attackFwd*(10.0f - gm.backpack);
             isSpanwed = true;
         }
         countdown -= Time.deltaTime;
