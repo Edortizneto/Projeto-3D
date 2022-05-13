@@ -34,7 +34,7 @@ public class GameManager{
 
     public void ChangeState(GameState nextState){
         lastState = gameState;
-        if ((gameState == GameState.GAMELOST || gameState == GameState.GAMEWON) && nextState == GameState.GAME) Reset();
+        if ((lastState == GameState.GAMELOST || lastState == GameState.GAMEWON) && nextState == GameState.GAME) Reset();
         gameState = nextState;
         FreezeGame(nextState);
         changeStateDelegate();

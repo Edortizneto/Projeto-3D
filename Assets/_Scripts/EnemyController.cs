@@ -11,8 +11,8 @@ public class EnemyController : MonoBehaviour
     GameObject player;
     float countdown;
     bool isSpanwed = false;
-    void Start()
-    {
+    public float turnRate;
+    void Start(){
         gm = GameManager.GetInstance();
         countdown = 5;
         player = GameObject.Find("Player");
@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        Debug.Log(countdown);
+        if (gm.gameState != GameManager.GameState.GAME && gm.gameState != GameManager.GameState.PAUSE) transform.position = startPos;
         if (countdown <= 0) {
             countdown = 5;
             attackPos = player.transform.position;
@@ -29,13 +29,7 @@ public class EnemyController : MonoBehaviour
             attackPos.y += 10.0f;
             transform.position = attackPos + attackFwd*10.0f;
             isSpanwed = true;
-            
         }
         countdown -= Time.deltaTime;
-        // else {
-        //     isSpanwed = false;
-            
-        //     transform.position = startPos;
-        // }
     }
 }

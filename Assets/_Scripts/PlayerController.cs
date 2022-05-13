@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour{
+    Vector3 startPos = new Vector3( 3.7f, 35.08f, 7.1f);
     float _baseSpeed = 4.0f;
     float _runSpeed = 8.0f;
     float _duckSpeed = 1.0f;
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour{
     bool _crouching = false;
     bool _flashlight = true; 
     bool _isLooking = false;
-    float countdown = 5;
+    float countdown = 2;
     float velJump = 0.0f;
     CharacterController characterController;
     GameObject playerCamera;
@@ -39,7 +40,9 @@ public class PlayerController : MonoBehaviour{
     }
 
     void Update(){
+        if (gm.gameState != GameManager.GameState.GAME && gm.gameState != GameManager.GameState.PAUSE) transform.position = startPos;
         if (gm.gameState != GameManager.GameState.GAME) return;
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -76,10 +79,10 @@ public class PlayerController : MonoBehaviour{
         }
         else
             _isLooking = false;
-        if(_isLooking) 
+        if(_isLooking && _flashlight) 
             countdown -= Time.deltaTime;
         if(!_isLooking)  
-            countdown = 5;
+            countdown = 2;
         if(countdown <= 0 || dist <= 2.0f) {
             gm.ChangeState(GameManager.GameState.GAMELOST);
         }
