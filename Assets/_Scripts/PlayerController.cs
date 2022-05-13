@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour{
             countdown -= Time.deltaTime;
         if(!_isLooking)  
             countdown = 5;
-        if(countdown <= 0 || dist <= 3.0f) {
+        if(countdown <= 0 || dist <= 2.0f) {
             gm.ChangeState(GameManager.GameState.GAMELOST);
         }
     }

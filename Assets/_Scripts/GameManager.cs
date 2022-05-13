@@ -6,6 +6,7 @@ public class GameManager{
 
     public enum GameState { MENU, GAME, PAUSE, GAMELOST, GAMEWON };
     public GameState gameState { get; private set; }
+    public GameState lastState { get; private set; }
     public delegate void ChangeStateDelegate();
     public static ChangeStateDelegate changeStateDelegate; 
     private static GameManager _instance;
@@ -23,6 +24,7 @@ public class GameManager{
 
     private GameManager(){
        gameState = GameState.MENU;
+       lastState = GameState.MENU;
        player = GameObject.Find("Player");
        FreezeGame(gameState);
        progression = 0;
@@ -31,6 +33,7 @@ public class GameManager{
     }
 
     public void ChangeState(GameState nextState){
+        lastState = gameState;
         if ((gameState == GameState.GAMELOST || gameState == GameState.GAMEWON) && nextState == GameState.GAME) Reset();
         gameState = nextState;
         FreezeGame(nextState);

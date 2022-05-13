@@ -9,28 +9,33 @@ public class EnemyController : MonoBehaviour
     Vector3 attackPos = new Vector3( -27, 50, 41);
     Vector3 attackFwd = new Vector3( -27, 50, 41);
     GameObject player;
+    float countdown;
     bool isSpanwed = false;
     void Start()
     {
         gm = GameManager.GetInstance();
+        countdown = 5;
         player = GameObject.Find("Player");
         transform.position = startPos;
     }
 
     // Update is called once per frame
     void Update(){
-        if (gm.progression > 1 && gm.progression % 2 == 0) {
-            if (!isSpanwed){
-                attackPos = player.transform.position;
-                attackFwd = player.transform.forward;
-                attackPos.y += 15.0f;
-                transform.position = attackPos + attackFwd*15.0f;
-                isSpanwed = true;
-            }
+        Debug.Log(countdown);
+        if (countdown <= 0) {
+            countdown = 5;
+            attackPos = player.transform.position;
+            attackFwd = player.transform.forward;
+            attackPos.y += 10.0f;
+            transform.position = attackPos + attackFwd*10.0f;
+            isSpanwed = true;
+            
         }
-        else {
-            isSpanwed = false;
-            transform.position = startPos;
-        }
+        countdown -= Time.deltaTime;
+        // else {
+        //     isSpanwed = false;
+            
+        //     transform.position = startPos;
+        // }
     }
 }
